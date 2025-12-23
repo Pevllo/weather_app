@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="loading hidden" id="loading">
+        <div class="spinner"></div>
+        <p>Loading weather data...</p>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="user-avatar">🌤️</div>
+                    <div class="user-info">
+                        <h3>Weather Hub</h3>
+                        <p>Your Personal Dashboard</p>
+                    </div>
+                </div>
+                <div class="menu-items">
+                    <div class="menu-section-title">Main Menu</div>
+                    <button class="menu-item active" onclick="switchPage('dashboard')">
+                        <span class="menu-icon">🏠</span>
+                        <span class="menu-text">Dashboard</span>
+                    </button>
+                    <button class="menu-item" onclick="switchPage('history')">
+                        <span class="menu-icon">📜</span>
+                        <span class="menu-text">Search History</span>
+                    </button>
+                    <button class="menu-item" onclick="switchPage('settings')">
+                        <span class="menu-icon">⚙️</span>
+                        <span class="menu-text">Settings</span>
+                    </button>
+                    
+                    <div class="menu-section-title">Quick Access</div>
+                    <button class="menu-item" onclick="quickSearch('London')">
+                        <span class="menu-icon">🇬🇧</span>
+                        <span class="menu-text">London</span>
+                    </button>
+                    <button class="menu-item" onclick="quickSearch('New York')">
+                        <span class="menu-icon">🇺🇸</span>
+                        <span class="menu-text">New York</span>
+                    </button>
+                    <button class="menu-item" onclick="quickSearch('Tokyo')">
+                        <span class="menu-icon">🇯🇵</span>
+                        <span class="menu-text">Tokyo</span>
+                    </button>
+                    <button class="menu-item" onclick="quickSearch('Paris')">
+                        <span class="menu-icon">🇫🇷</span>
+                        <span class="menu-text">Paris</span>
+                    </button>
+                </div>
+                
+                <div class="sidebar-footer">
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">Help & Support</a>
+                        <a href="#" class="footer-link">About</a>
+                        <a href="#" class="footer-link">Privacy Policy</a>
+                    </div>
+                    <div class="sidebar-version">
+                        Weather Dashboard v1.0
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page-content active" id="dashboardPage">
+                <div class="header">
+                    <div class="header-left">
+                        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                        <div class="logo">
+                            <span>🌤️</span>
+                            <span>Weather Dashboard</span>
+                        </div>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" id="cityInput" placeholder="Search for a city..." value="cairo">
+                        <button class="search-btn" onclick="searchWeather()">Search</button>
+                    </div>
+                </div>
+
+                <!-- Current Weather Card -->
+                <div class="weather-card">
+                    <div class="location-info">
+                        <div class="location-text">
+                            <h2 id="cityName">Search a city</h2>
+                            <p id="dateTime">to see weather data</p>
+                        </div>
+                        <div class="location-icon">📍</div>
+                    </div>
+
+                    <div class="weather-main">
+                        <div class="temperature-section">
+                            <div class="temperature" id="temperature">--°</div>
+                            <div class="feels-like" id="feelsLike">Feels like --°</div>
+                        </div>
+                        <div class="weather-icon" id="weatherIcon">🌤️</div>
+                    </div>
+
+                    <div class="weather-description" id="weatherDesc">Clear Sky</div>
+
+                    <div class="weather-details">
+                        <div class="detail-item">
+                            <div class="detail-icon">💧</div>
+                            <div class="detail-text">
+                                <h4>Humidity</h4>
+                                <p id="humidity">--%</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">💨</div>
+                            <div class="detail-text">
+                                <h4>Wind Speed</h4>
+                                <p id="windSpeed">-- m/s</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">🌡️</div>
+                            <div class="detail-text">
+                                <h4>Pressure</h4>
+                                <p id="pressure">-- hPa</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">👁️</div>
+                            <div class="detail-text">
+                                <h4>Visibility</h4>
+                                <p id="visibility">-- km</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Stats -->
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <div class="stat-icon">🌅</div>
+                        <div class="stat-value" id="sunrise">--:--</div>
+                        <div class="stat-label">Sunrise</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🌇</div>
+                        <div class="stat-value" id="sunset">--:--</div>
+                        <div class="stat-label">Sunset</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">☀️</div>
+                        <div class="stat-value" id="uvIndex">5</div>
+                        <div class="stat-label">UV Index</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🍃</div>
+                        <div class="stat-value">Good</div>
+                        <div class="stat-label">Air Quality</div>
+                    </div>
+                </div>
+
+                <!-- Forecast -->
+                <div class="forecast-section">
+                    <h3 class="section-title">Forecast</h3>
+                    <div class="forecast-grid" id="forecastGrid">
+                        <div style="grid-column: 1 / -1; text-align: center; opacity: 0.7; padding: 20px;">
+                            Search a city to see forecast
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Page -->
+            <div class="page-content" id="historyPage">
+                <div class="header">
+                    <div class="header-left">
+                        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                        <div class="logo">
+                            <span>📜</span>
+                            <span>Search History</span>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="search-btn" style="background: rgba(255, 50, 50, 0.2);" onclick="clearAllHistory()">
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+
+                <div class="history-list" id="historyList">
+                    <div style="text-align: center; padding: 40px; opacity: 0.7;">
+                        No search history yet
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="page-content" id="settingsPage">
+                <div class="header">
+                    <div class="header-left">
+                        <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+                        <div class="logo">
+                            <span>⚙️</span>
+                            <span>Settings</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3 class="settings-title">Temperature Unit</h3>
+                    <div class="setting-option">
+                        <label>
+                            <input type="radio" name="unit" value="metric" checked onchange="changeUnit('metric')">
+                            <span>Celsius (°C)</span>
+                        </label>
+                    </div>
+                    <div class="setting-option">
+                        <label>
+                            <input type="radio" name="unit" value="imperial" onchange="changeUnit('imperial')">
+                            <span>Fahrenheit (°F)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-card">
+                    <h3 class="settings-title">About</h3>
+                    <p style="opacity: 0.8; line-height: 1.6;">
+                        Weather Dashboard v1.0<br>
+                        Powered by OpenWeatherMap API<br><br>
+                        A beautiful and intuitive weather dashboard for checking weather conditions worldwide.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
