@@ -1,8 +1,8 @@
 <?php
 // config.php
 define('DB_HOST', 'localhost');
-define('DB_USER', 'root'); // Change to your MySQL username
-define('DB_PASS', '');     // Change to your MySQL password
+define('DB_USER', 'root'); //username sql
+define('DB_PASS', '');   // sql server password  
 define('DB_NAME', 'weather_dashboard');
 
 // OpenWeatherMap API Key (Put your actual key here)
